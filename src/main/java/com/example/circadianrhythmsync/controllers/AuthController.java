@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationService service;
     @PostMapping("/register")
-    public ResponseEntity<JwtResponseDTO> register(
+    public ResponseEntity register(
             @RequestBody RegisterReqDTO request) {
-        return ResponseEntity.ok(service.register(request));
+        service.register(request);
+        return ResponseEntity.ok().build();
     }
     @PostMapping("/authenticate")
     public ResponseEntity<JwtResponseDTO> authenticate(

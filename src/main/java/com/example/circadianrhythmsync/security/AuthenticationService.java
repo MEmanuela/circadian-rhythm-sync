@@ -9,6 +9,7 @@ import com.example.circadianrhythmsync.repositories.TokenRepository;
 import com.example.circadianrhythmsync.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,17 +26,13 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private MessageSource messageSource;
-    public JwtResponseDTO register(RegisterReqDTO request) {
+    public void register(RegisterReqDTO request) {
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(new Role(Long.valueOf(1), "admin"))
+                .role(new Role(Long.valueOf(2), "user"))
                 .build();
-        var savedUser = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        saveUserToken(savedUser, jwtToken);
-        return JwtResponseDTO.builder()
-                .accessToken(jwtToken).build();
+        userRepository.save(user);
     }
     public JwtResponseDTO authenticate(AuthRequestDTO request) {
         authenticationManager.authenticate(
