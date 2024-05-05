@@ -1,15 +1,14 @@
 package com.example.circadianrhythmsync.security;
 
 import com.example.circadianrhythmsync.configuration.JwtService;
+import com.example.circadianrhythmsync.entities.Role;
 import com.example.circadianrhythmsync.entities.Token;
 import com.example.circadianrhythmsync.entities.User;
-import com.example.circadianrhythmsync.entities.Role;
 import com.example.circadianrhythmsync.exceptions.UserAuthenticationException;
 import com.example.circadianrhythmsync.repositories.TokenRepository;
 import com.example.circadianrhythmsync.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +25,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private MessageSource messageSource;
+
     public void register(RegisterReqDTO request) {
         var user = User.builder()
                 .username(request.getUsername())

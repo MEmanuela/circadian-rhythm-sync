@@ -46,3 +46,16 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task buildWithoutTests {
+	dependsOn 'clean'
+
+	doLast {
+		// Build the project, excluding tests
+		exec {
+			commandLine './gradlew', 'build', '-x', 'test'
+		}
+	}
+
+	finalizedBy 'jar'
+}

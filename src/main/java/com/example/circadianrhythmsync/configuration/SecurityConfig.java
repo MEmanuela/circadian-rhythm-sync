@@ -30,8 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/v1/auth/**").permitAll()
-                    .requestMatchers("/admin/api/v1/**").hasAuthority("admin")
-                    .requestMatchers("/api/v1/**").hasAuthority("user")
+//                    .requestMatchers("/admin/api/v1/**").hasAuthority("admin")
+//                    .requestMatchers("/api/v1/home/**").hasAuthority("user")
                     .anyRequest().authenticated())
                 .sessionManagement(sess -> sess
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

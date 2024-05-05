@@ -1,32 +1,31 @@
-version: "3.7"
+version: "3.8"
 services:
-  API:
-    build: .
-    image: circadian-rhythm-sync
-    ports:
-      - "8080:8080"
+  app:
+    image: 'circadian-rhythm-sync:latest'
+    build:
+      context: .
+    container_name: app
     depends_on:
-      PostgreSQL:
-        condition: service_healthy
+      - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5435/circadian-sync-db
+      - POSTGRES_USER=ema
+      - POSTGRES_PASSWORD=H3lloW0rld!
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/circadian-sync-db
       - SPRING_DATASOURCE_USERNAME=ema
       - SPRING_DATASOURCE_PASSWORD=H3lloW0rld!
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
-  PostgreSQL:
-    image: "postgres:latest"
-    restart: always
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
-      - "5435:5432"
+      - "8080:8080"
+
+  db:
+    image: "postgres:latest"
+    container_name: db
     environment:
       - POSTGRES_DB=circadian-sync-db
       - POSTGRES_USER=ema
       - POSTGRES_PASSWORD=H3lloW0rld!
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    ports:
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
 volumes:

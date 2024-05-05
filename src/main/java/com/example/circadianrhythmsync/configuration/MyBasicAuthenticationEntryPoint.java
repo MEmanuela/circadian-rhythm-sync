@@ -30,7 +30,7 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
     }
     @Override
     public void afterPropertiesSet() {
-        setRealmName("Internship");
+        setRealmName("Circadian-Rhythm-Sync");
         super.afterPropertiesSet();
     }
 }
